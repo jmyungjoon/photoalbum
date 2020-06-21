@@ -121,6 +121,7 @@ $(document).ready(function(){
             this.exifdata = null;
             EXIF.getData(this, function() {
             var exifLong = EXIF.getTag(this, "GPSLongitude");
+            
             var exifLat = EXIF.getTag(this, "GPSLatitude");
             var exifLongRef = EXIF.getTag(this, "GPSLongitudeRef");
             var exifLatRef = EXIF.getTag(this, "GPSLatitudeRef");
@@ -139,6 +140,9 @@ $(document).ready(function(){
             wtmX = latitude,
             wtmY = longitude;
             console.log(wtmX, wtmY);
+            if(exifLong === undefined){
+              alert("There is no GPS infomation.")
+            } 
             window.open(`http://www.google.com/maps/place/${wtmX},${wtmY}`);
             this.exifdata = null;
             });
@@ -249,21 +253,25 @@ $(document).ready(function(){
    })
 
   $(document).on('click', '#sortDate', function(){
+
     var fileName = document.querySelectorAll("img");
     console.log(fileName);
     var date = [];
     for(i = 0; i < fileName.length; i++) {
       EXIF.getData(fileName[i], function() {
-      date.push(EXIF.getTag(this, "DateTimeOriginal")+fileName[i].src); 
-    });
-    this.exifdata = null;
-    };
+        date.push(EXIF.getTag(this, "DateTimeOriginal")+fileName[i].src); 
+        if(date.length !== fileName.length){
+          setInterval(console.log("please wait for a while",5000))
+        }
+      });
+      this.exifdata = null;
+      };
     console.log(date);
     date.reverse();
     console.log(date);
     var splitFiles =[];
     for(i =0; i < date.length; i++){
-      splitFiles.push(date[i].split("http://localhost/photoalbum/"));
+      splitFiles.push(date[i].split("http://ittcserver.net/photoalbum/"));
     };
     console.log(splitFiles);
     var img = document.querySelectorAll("img");
@@ -275,6 +283,5 @@ $(document).ready(function(){
       theImg[i].src =splitFiles[i][1];
     };
     splitFiles = [];
-
-    })
+  })
 

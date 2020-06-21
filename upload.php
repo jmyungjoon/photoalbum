@@ -7,7 +7,7 @@ if($_FILES["upload_file"]["name"] != '')
  $allowed_extension = array("jpg", "png", "gif");
  if(in_array($extension, $allowed_extension))
  {
-  $new_file_name = rand() . '.' . $extension;
+  $new_file_name = $data[0] . '.' . $extension;
   $path = $_POST["hidden_folder_name"] . '/' . $new_file_name;
   if(move_uploaded_file($_FILES["upload_file"]["tmp_name"], $path))
   {
