@@ -191,6 +191,8 @@ $(document).ready(function(){
      console.log(btn);
      var div = btn.parentNode;
      console.log(div);
+     var parentDiv = div.parentNode;
+     console.log(parentDiv);
      var path = $(this).attr("id");
      var action = "remove_file";
      if(confirm("Are you sure you want to remove this file?"))
@@ -204,7 +206,7 @@ $(document).ready(function(){
         alert(data);
         $('#filelistModal').modal('hide');
         load_folder_list();
-        div.style="display:none";
+        parentDiv.removeChild(div);
        }
       });
      }
