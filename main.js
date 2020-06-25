@@ -102,9 +102,7 @@ $(document).ready(function(){
     });
     
     $(document).on('click', '.view_files', viewFiles);
-    
     function viewFiles(e){
-        
         var folder_name = $(this).data("name");
         var action = "fetch_files";
         $.ajax({
@@ -117,6 +115,78 @@ $(document).ready(function(){
           $(document).ready(function() {
             $('.venobox').venobox();
           });
+          let sortName ="";
+          let img ="";
+          let original =""
+          let theImg ="";
+          let imgFiles=[];
+          let fileName = document.querySelectorAll("img");
+          console.log(fileName);
+            var date = [];
+            for(i = 0; i < fileName.length; i++) {
+              EXIF.getData(fileName[i], function() {
+                date.push(EXIF.getTag(this, "DateTimeOriginal")+fileName[i].src); 
+                // if(date.length !== fileName.length){
+                //   setInterval(console.log("please wait for a while",0))
+                // }
+              });
+              this.exifdata = null;
+              };
+            console.log(date);
+          $(document).on('click', '.name', function(){
+            sortName = document.querySelector("#sortName");
+            if (sortName.innerHTML === "name(A-&gt;Z)"){
+              sortName.innerHTML = "name(Z->A)";
+            } else {
+              sortName.innerHTML = "name(A->Z)";
+            }
+            img = document.querySelectorAll("img");
+            original = document.querySelectorAll("#original");
+            theImg = document.querySelectorAll("#the-img1"); 
+            console.log(theImg);
+            imgFiles = [];
+            for ( i = 0; i < img.length; i++){
+              imgFiles.push(img[i].src);
+            };
+              console.log(imgFiles);
+              imgFiles.reverse();
+            for ( i = 0; i < imgFiles.length; i++){
+              img[i].src = imgFiles[i];
+              original[i].href = imgFiles[i];
+              theImg[i].src = imgFiles[i];
+            };
+           })
+           $(document).on('click', '#sortDate', function(){
+            fileName = document.querySelectorAll("img");
+            console.log(fileName);
+            var date = [];
+            for(i = 0; i < fileName.length; i++) {
+              EXIF.getData(fileName[i], function() {
+                date.push(EXIF.getTag(this, "DateTimeOriginal")+fileName[i].src); 
+                // if(date.length !== fileName.length){
+                //   setInterval(console.log("please wait for a while",0))
+                // }
+              });
+              this.exifdata = null;
+              };
+            console.log(date);
+            date.reverse();
+            console.log(date);
+            var splitFiles =[];
+            for(i =0; i < date.length; i++){
+              splitFiles.push(date[i].split("http://localhost/photoalbum/"));
+            };
+            console.log(splitFiles);
+            img = document.querySelectorAll("img");
+            original = document.querySelectorAll("#original");
+            theImg = document.querySelectorAll("#the-img1"); 
+            for ( i = 0; i < splitFiles.length; i++){
+              img[i].src = splitFiles[i][1];
+              original[i].href = splitFiles[i][1];
+              theImg[i].src =splitFiles[i][1];
+            };
+            splitFiles = [];
+          })
           $(document).on('click', '#the-img1', function(){
             this.exifdata = null;
             EXIF.getData(this, function() {
@@ -148,13 +218,14 @@ $(document).ready(function(){
             });
           });
          }
+         
         });
-       
+        
     }
     
     $(document).on('click', '.bx', bodyClass);
         const body = document.querySelector("body");
-    function bodyClass(){
+        function bodyClass(){
         if(body.class===""){
             body.classList="vbox-open";
             $(document).ready(function() {
@@ -230,60 +301,4 @@ $(document).ready(function(){
     });
     
    });
-
-   $(document).on('click', '.name', function(){
-    var sortName = document.querySelector("#sortName");
-    if (sortName.innerHTML === "name(A-&gt;Z)"){
-      sortName.innerHTML = "name(Z->A)";
-    } else {
-      sortName.innerHTML = "name(A->Z)";
-    }
-    var img = document.querySelectorAll("img");
-    var original = document.querySelectorAll("#original");
-    var theImg = document.querySelectorAll("#the-img1"); 
-    console.log(theImg);
-    var imgFiles = [];
-    for ( i = 0; i < img.length; i++){
-      imgFiles.push(img[i].src);
-    };
-      imgFiles.reverse();
-    for ( i = 0; i < imgFiles.length; i++){
-      img[i].src = imgFiles[i];
-      original[i].href = imgFiles[i];
-      theImg[i].src = imgFiles[i];
-    };
-   })
-
-  $(document).on('click', '#sortDate', function(){
-
-    var fileName = document.querySelectorAll("img");
-    console.log(fileName);
-    var date = [];
-    for(i = 0; i < fileName.length; i++) {
-      EXIF.getData(fileName[i], function() {
-        date.push(EXIF.getTag(this, "DateTimeOriginal")+fileName[i].src); 
-        if(date.length !== fileName.length){
-          setInterval(console.log("please wait for a while",5000))
-        }
-      });
-      this.exifdata = null;
-      };
-    console.log(date);
-    date.reverse();
-    console.log(date);
-    var splitFiles =[];
-    for(i =0; i < date.length; i++){
-      splitFiles.push(date[i].split("http://ittcserver.net/photoalbum/"));
-    };
-    console.log(splitFiles);
-    var img = document.querySelectorAll("img");
-    var original = document.querySelectorAll("#original");
-    var theImg = document.querySelectorAll("#the-img1"); 
-    for ( i = 0; i < splitFiles.length; i++){
-      img[i].src = splitFiles[i][1];
-      original[i].href = splitFiles[i][1];
-      theImg[i].src =splitFiles[i][1];
-    };
-    splitFiles = [];
-  })
 
