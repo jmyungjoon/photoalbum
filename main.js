@@ -174,7 +174,7 @@ $(document).ready(function(){
             console.log(date);
             var splitFiles =[];
             for(i =0; i < date.length; i++){
-              splitFiles.push(date[i].split("http://localhost/photoalbum/"));
+              splitFiles.push(date[i].split("http://ittcserver.net/photoalbum/"));
             };
             console.log(splitFiles);
             img = document.querySelectorAll("img");
